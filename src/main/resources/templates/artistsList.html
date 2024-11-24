@@ -9,19 +9,11 @@
     <thead>
     <tr>
         <th>Artist Name</th>
-        <th>Actions</th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="artist : ${artists}">
         <td th:text="${artist.firstName + ' ' + artist.lastName}"></td>
-        <td>
-            <form th:action="@{/artist}" method="post">
-                <input type="hidden" name="trackId" th:value="${trackId}"/>
-                <input type="hidden" name="artistId" th:value="${artist.id}"/>
-                <button type="submit">Add to Song</button>
-            </form>
-        </td>
     </tr>
     </tbody>
 </table>
