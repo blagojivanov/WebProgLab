@@ -32,17 +32,17 @@ public class ArtistController {
         return "artistsList";
     }
 
-    @PostMapping
-    public String addArtistToSong(@RequestParam String trackId, @RequestParam Long artistId, Model model) {
-        Song song = songService.findByTrackId(trackId);
-        Artist artist = artistService.findById(artistId);
-
-        songService.addArtistToSong(artist, song);
-
-        model.addAttribute("trackId", song.getTrackId());
-        model.addAttribute("artistId", artist.getId());
-        model.addAttribute("song", song);
-
-        return "song-details";
-    }
+//    @PostMapping
+//    public String addArtistToSong(@RequestParam String trackId, @RequestParam Long artistId, Model model) {
+//        Song song = songService.findByTrackId(trackId);
+//        Artist artist = artistService.findById(artistId);
+//
+//        songService.addArtistToSong(artist, song);
+//
+//        model.addAttribute("trackId", song.getTrackId());
+//        model.addAttribute("artistId", artist.getId());
+//        model.addAttribute("song", song);
+//
+//        return "song-details";
+//    }
 }

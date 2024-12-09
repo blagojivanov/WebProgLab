@@ -1,34 +1,52 @@
 package mk.finki.ukim.wp.wplab.model;
 
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import mk.finki.ukim.wp.wplab.bootstrap.DataHolder;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-@Data
+@Entity
+@NoArgsConstructor
 public class Song {
 
-    Long id;
-    String trackId;
-    String title;
-    String genre;
-    int releaseYear;
-    List<Artist> performers;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    Long albumId;
+    @Setter
+    private String trackId;
+    @Setter
+    private String title;
+
+    @Setter
+    private String genre;
+
+    @Setter
+    private int releaseYear;
+
+    @ManyToMany
+    private List<Artist> performers;
+
+    @ManyToOne
+    @Setter
     private Album album;
 
-    public Song(Long id, String trackId, String title, String genre, int releaseYear, Long albumId) {
-        this.id = id;
+    public Song(String trackId, String title, String genre, int releaseYear, Album album) {
         this.trackId = trackId;
         this.title = title;
         this.genre = genre;
         this.releaseYear = releaseYear;
         this.performers = new ArrayList<>();
-        this.album = DataHolder.albums.stream().filter(x-> x.id.equals(albumId)).findFirst().get();
+        this.album = album;
     }
 
+    public void addArtist(Artist artist) {
+        performers.add(artist);
+    }
 }

@@ -53,13 +53,13 @@ public class SongController {
     @PostMapping("/edit")
     public String saveEditedSong(@RequestParam Long songId, @RequestParam String title, @RequestParam String trackId,
                                  @RequestParam String genre, @RequestParam int releaseYear, @RequestParam Long albumId) {
-        songService.edit(songId, title, genre, releaseYear, trackId, albumId);
+        songService.editSong(songId, trackId, title, genre, releaseYear, albumId);
         return "redirect:/songs";
     }
 
     @PostMapping("/delete/{id}")
     public String deleteSong(@PathVariable Long id) {
-        songService.delete(id);
+        songService.deleteSong(id);
         return "redirect:/songs";
     }
 
@@ -76,21 +76,21 @@ public class SongController {
         model.addAttribute("song", song);
         return "song-details";
     }
-
-    @GetMapping("/add-artist/{songId}")
-    public String getAddArtistPage(@PathVariable Long songId, Model model) {
-        Song song = songService.findById(songId);
-        List<Artist> artists = artistService.listArtists();
-        model.addAttribute("song", song);
-        model.addAttribute("artists", artists);
-        return "add-artist-to-song";
-    }
-
-    @PostMapping("/add-artist")
-    public String addArtistToSong(@RequestParam Long songId, @RequestParam Long artistId) {
-        Song song = songService.findById(songId);
-        Artist artist = artistService.findById(artistId);
-        songService.addArtistToSong(artist, song);
-        return "redirect:/songs/details/" + songId;
-    }
+//
+//    @GetMapping("/add-artist/{songId}")
+//    public String getAddArtistPage(@PathVariable Long songId, Model model) {
+//        Song song = songService.findById(songId);
+//        List<Artist> artists = artistService.listArtists();
+//        model.addAttribute("song", song);
+//        model.addAttribute("artists", artists);
+//        return "add-artist-to-song";
+//    }
+//
+//    @PostMapping("/add-artist")
+//    public String addArtistToSong(@RequestParam Long songId, @RequestParam Long artistId) {
+//        Song song = songService.findById(songId);
+//        Artist artist = artistService.findById(artistId);
+////        songService.addArtistToSong(artist, song);
+//        return "redirect:/songs/details/" + songId;
+//    }
 }
