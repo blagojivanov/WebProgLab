@@ -1,6 +1,7 @@
 package mk.finki.ukim.wp.wplab.web.controller;
 
 import mk.finki.ukim.wp.wplab.model.Album;
+import mk.finki.ukim.wp.wplab.model.Song;
 import mk.finki.ukim.wp.wplab.service.AlbumService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -56,4 +57,11 @@ public class AlbumController {
         albumService.delete(albumId);
         return "redirect:/albums";
     }
+    @GetMapping("/details/{albumId}")
+    public String getSongDetails(@PathVariable Long albumId, Model model) {
+        Album album = albumService.findById(albumId).get();
+        model.addAttribute("album", album);
+        return "album-details";
+    }
+
 }

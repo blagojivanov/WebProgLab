@@ -24,6 +24,7 @@
             <td th:text="${album.genre}"></td>
             <td th:text="${album.releaseYear}"></td>
             <td>
+                <a th:href="@{/albums/details/{albumId}(albumId=${album.id})}">Details</a> |
                 <a th:href="@{/albums/edit/{albumId}(albumId=${album.id})}">Edit</a> |
                 <form th:action="@{/albums/delete/{albumId}(albumId=${album.id})}" method="post" style="display:inline;">
                     <button type="submit">Delete</button>

@@ -6,6 +6,7 @@ import mk.finki.ukim.wp.wplab.model.Song;
 import mk.finki.ukim.wp.wplab.service.AlbumService;
 import mk.finki.ukim.wp.wplab.service.ArtistService;
 import mk.finki.ukim.wp.wplab.service.SongService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -35,6 +36,7 @@ public class SongController {
     }
 
     @PostMapping("/saveSong")
+    @PreAuthorize("hasRole('ADMIN')")
     public String saveSong(@RequestParam String title, @RequestParam String trackId, @RequestParam String genre,
                            @RequestParam int releaseYear, @RequestParam Long albumId) {
         songService.save(title, genre, releaseYear, trackId, albumId);
@@ -42,6 +44,7 @@ public class SongController {
     }
 
     @GetMapping("/edit/{songId}")
+    @PreAuthorize("hasRole('ADMIN')")
     public String editSong(@PathVariable Long songId, Model model) {
         Song song = songService.findById(songId);
         List<Album> albums = albumService.findAll();
@@ -51,6 +54,7 @@ public class SongController {
     }
 
     @PostMapping("/edit")
+    @PreAuthorize("hasRole('ADMIN')")
     public String saveEditedSong(@RequestParam Long songId, @RequestParam String title, @RequestParam String trackId,
                                  @RequestParam String genre, @RequestParam int releaseYear, @RequestParam Long albumId) {
         songService.editSong(songId, trackId, title, genre, releaseYear, albumId);
@@ -58,12 +62,14 @@ public class SongController {
     }
 
     @PostMapping("/delete/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public String deleteSong(@PathVariable Long id) {
         songService.deleteSong(id);
         return "redirect:/songs";
     }
 
     @GetMapping("/add-form")
+    @PreAuthorize("hasRole('ADMIN')")
     public String getAddSongPage(Model model) {
         List<Album> albums = albumService.findAll();
         model.addAttribute("albums", albums);
@@ -71,11 +77,15 @@ public class SongController {
     }
 
     @GetMapping("/details/{songId}")
+    @PreAuthorize("hasRole('ADMIN')")
     public String getSongDetails(@PathVariable Long songId, Model model) {
         Song song = songService.findById(songId);
         model.addAttribute("song", song);
         return "song-details";
     }
+
+
+
 //
 //    @GetMapping("/add-artist/{songId}")
 //    public String getAddArtistPage(@PathVariable Long songId, Model model) {
@@ -90,7 +100,7 @@ public class SongController {
 //    public String addArtistToSong(@RequestParam Long songId, @RequestParam Long artistId) {
 //        Song song = songService.findById(songId);
 //        Artist artist = artistService.findById(artistId);
-////        songService.addArtistToSong(artist, song);
+//        songService.addArtistToSong(artist, song);
 //        return "redirect:/songs/details/" + songId;
 //    }
 }
